@@ -1,10 +1,11 @@
+/* eslint-disable react/no-unescaped-entities */
 import { useState } from "react";
+import Card from "./components/Card";
 import DogRow, { Dog } from "./components/DogRow";
 import SearchInput from "./components/SearchInput";
 import useFetch from "./utils/useFetch";
 
 function App() {
-  const [dogs, setDogs] = useState<Dog[]>([]);
   const [searchVal, setSearchVal] = useState<string | undefined>("");
   const baseUrl = "https://api.thedogapi.com/v1/";
 
@@ -13,7 +14,6 @@ function App() {
       ? "breeds/search?q=" + encodeURIComponent(searchVal)
       : "breeds?limit=10&page=0"
   }`;
-  console.log(url);
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
   myHeaders.append(
@@ -43,21 +43,24 @@ function App() {
             <SearchInput onChange={handleSearchChange} />
           </div>
           {loading ? (
-            <div role="status" className="max-w-sm animate-pulse">
-              <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
-              <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px] mb-2.5"></div>
-              <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
-              <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[330px] mb-2.5"></div>
-              <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[300px] mb-2.5"></div>
-              <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px]"></div>
-              <span className="sr-only">Loading...</span>
-            </div>
-          ) : (
-            data &&
+            <Card>
+              <div role="status" className="w-full animate-pulse">
+                <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
+                <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
+                <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
+                <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700  mb-2.5"></div>
+                <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
+                <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+              </div>
+            </Card>
+          ) : data && data.length ? (
             data.map((dog: Dog) => (
               <DogRow {...dog} key={dog.reference_image_id} />
             ))
+          ) : (
+            <Card>No Records found with "{searchVal}"</Card>
           )}
+          {error && <Card>An error occurred. {error.message}</Card>}
         </div>
       </div>
     </div>

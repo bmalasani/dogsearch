@@ -6,7 +6,7 @@ export type CardProps = {
 
 export default function Card(props: CardProps) {
   return (
-    <div className="bg-gray-100 px-5 rounded-md overflow-hidden shadow-2xl">
+    <div className="bg-gray-50 flex p-5 mt-5 rounded-md shadow-xl">
       {props.children}
     </div>
   );

@@ -3,15 +3,16 @@ import useDebounce from "../utils/useDebounce";
 
 type SearchInputProps = {
   children?: any;
-  onChange?: (value?: string) => unknown|void;
+  onChange: (value?: string) => unknown | void;
 };
 
 function SearchInput({ onChange }: SearchInputProps) {
-  const { setArgs } = useDebounce(
-    (...args: any) => onChange && onChange(...args),
-    1000
-  );
-  const debouncedChange = (evt: any) => setArgs([evt.target.value]);
+  const { setArgs } = useDebounce((...args: any) => {
+    onChange(...args);
+  }, 1000);
+  const debouncedChange = (evt: any) => {
+    setArgs([evt.target.value]);
+  };
   return (
     <div className="relative">
       <div className="flex items-center pt-0 pr-0 pb-0 pl-3 absolute inset-y-0 left-0 pointer-events-none">
@@ -35,6 +36,7 @@ function SearchInput({ onChange }: SearchInputProps) {
       </div>
       <input
         id="input-search"
+        data-testid="input-search"
         placeholder="Search Dogs "
         type="search"
         onChange={debouncedChange}

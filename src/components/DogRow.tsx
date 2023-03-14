@@ -1,4 +1,5 @@
 import React from "react";
+import Card from "./Card";
 
 export type Dog = {
   name: string;
@@ -11,30 +12,33 @@ export type Dog = {
   breed_for?: string;
 };
 
-function DogRow({
-  name = "test",
-  life_span = "test",
-  reference_image_id = "pk1AAdloG",
-}: Dog) {
+function DogRow({ name, life_span, reference_image_id, temperament }: Dog) {
   return (
-    <div className="max-w-sm py-4 px-4 flex bg-white shadow-lg rounded-lg my-3">
-      <div className="flex justify-start">
+    <Card>
+      <div id="dog-card" className="flex justify-start">
         <img
-          className="w-24 h-24 object-cover rounded-full border-2 border-indigo-500"
+          alt={name}
+          className="w-28 h-28 object-fill rounded-full"
           src={`https://cdn2.thedogapi.com/images/${reference_image_id}.jpg`}
         />
       </div>
-      <div className="flex flex-col pl-5 justify-center">
-        <div className="flex">
-          <h4 className="text-gray-700 font-bold font-sans w-28">Name:</h4>
+      <div id="name" className="flex flex-col pl-5 justify-start">
+        <div className="flex mb-1">
+          <h4 className="text-gray-700 font-bold font-sans w-32">Name:</h4>
           <span>{name}</span>
         </div>
-        <div className="flex">
-          <h4 className="text-gray-700 font-bold font-sans w-28">Life Span:</h4>
+        <div id="life_span" className="flex mb-1">
+          <h4 className="text-gray-700 font-bold font-sans w-32">Life Span:</h4>
           <span>{life_span}</span>
         </div>
+        <div id="temperament" className="flex mb-1">
+          <h4 className="text-gray-700 font-bold font-sans w-32">
+            Temperament:
+          </h4>
+          <span className="whitespace-pre-wrap">{temperament}</span>
+        </div>
       </div>
-    </div>
+    </Card>
   );
 }
 
